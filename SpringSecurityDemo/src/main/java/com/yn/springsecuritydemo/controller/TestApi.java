@@ -8,10 +8,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/test")
 public class TestApi {
 
-    @GetMapping
+    @GetMapping("/index")
     public String index() {
         return "welcome to Spring Security!";
     }
+
+    @GetMapping("/basic-auth")
+    public String basicAuth() {
+        return "basic auth pass!";
+    }
+
+
 
 
 }
