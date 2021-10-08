@@ -31,16 +31,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        String password = this.passwordEncoder.encode("123456");
-        // 内存用户
-        auth.inMemoryAuthentication()
-                // 用户名
-                .withUser("whyn")
-                // 密码
-                .password(password)
-                // 角色
-                .roles("admin")
-                // 权限 CRUD
-                .authorities("create","read","udpate","delete");
+        super.configure(auth);
     }
 }
