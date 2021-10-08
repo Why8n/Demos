@@ -12,16 +12,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                // 放行接口 login/**，/test/index
-                .antMatchers("/login/**","/test/index").permitAll()
-                // 其余所有请求都必须经过认证
-                .anyRequest().authenticated()
-                .and()
-                // 使用 HTTP Basic 认证
-                .httpBasic()
-                .and()
-                // 同时支持表单认证（网页端优先使用表单认证）
-                .formLogin();
+        http.authorizeRequests((request) ->
+                request.anyRequest().permitAll());
     }
 }
