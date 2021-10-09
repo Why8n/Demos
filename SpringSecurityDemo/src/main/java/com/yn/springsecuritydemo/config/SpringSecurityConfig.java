@@ -1,5 +1,6 @@
 package com.yn.springsecuritydemo.config;
 
+import com.yn.springsecuritydemo.config.jump.AuthenticationFailureHandlerImpl;
 import com.yn.springsecuritydemo.config.jump.AuthenticationSuccessHandlerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -29,14 +30,16 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/failure.html").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable()
                 .formLogin()
-                .successHandler(new AuthenticationSuccessHandlerImpl("https://www.baidu.com"));
-//                .successForwardUrl("/success");
-//                .defaultSuccessUrl("/test/index");
-//        .defaultSuccessUrl("/test/index",true);
+//                .failureHandler(new AuthenticationFailureHandlerImpl("/failure.html"));
+                .failureForwardUrl("/failure.html");
+//                .failureUrl("/failure.html");
+
+
     }
 
 
