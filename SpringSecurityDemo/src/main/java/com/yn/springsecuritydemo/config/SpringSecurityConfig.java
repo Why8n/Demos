@@ -9,9 +9,11 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
 
 // Spring Security 自定义配置类
-@Configuration
+@Component
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -25,7 +27,17 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
+        http.authorizeRequests()
+                .anyRequest().authenticated()
+                .and()
+                // 启动表单验证
+                .formLogin(form ->
+                        // 登录页面
+                        form.loginPage("/login.html").permitAll()
+                                // 表单登录提交接口（无需定义 doLogin 接口）
+                                .loginProcessingUrl("/doLogin"))
+                // 失能 CSRF
+                .csrf().disable();
     }
 
 
