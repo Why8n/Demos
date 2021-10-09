@@ -1,5 +1,6 @@
 package com.yn.springsecuritydemo.config;
 
+import com.yn.springsecuritydemo.config.jump.AuthenticationSuccessHandlerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,14 +31,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
-                // 启动表单验证
-                .formLogin(form ->
-                        // 登录页面
-                        form.loginPage("/login.html").permitAll()
-                                // 表单登录提交接口（无需定义 doLogin 接口）
-                                .loginProcessingUrl("/doLogin"))
-                // 失能 CSRF
-                .csrf().disable();
+                .csrf().disable()
+                .formLogin()
+                .successHandler(new AuthenticationSuccessHandlerImpl("https://www.baidu.com"));
+//                .successForwardUrl("/success");
+//                .defaultSuccessUrl("/test/index");
+//        .defaultSuccessUrl("/test/index",true);
     }
 
 

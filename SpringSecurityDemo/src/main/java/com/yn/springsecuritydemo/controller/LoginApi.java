@@ -15,5 +15,11 @@ public class LoginApi {
     public String loginPage() {
         return "login";
     }
+
+    @PostMapping("/success")
+    @ResponseBody
+    public String loginSuccessForward() {
+        return "login success";
+    }
 }
 
