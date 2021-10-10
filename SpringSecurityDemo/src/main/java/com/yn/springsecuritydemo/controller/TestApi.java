@@ -1,9 +1,6 @@
 package com.yn.springsecuritydemo.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -41,6 +38,11 @@ public class TestApi {
     public String setCookie(@PathVariable("cookie") String cookie, HttpServletResponse response) {
         response.addCookie(new Cookie("cookieName", cookie));
         return "set cookie: " + cookie;
+    }
+
+    @PostMapping("/post")
+    public String testPost(@RequestParam("name") String name) {
+        return name;
     }
 
 
