@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
-@Configuration
+//@Configuration
 public class InMemoryUserDetailsServiceConfig {
 
     @Autowired
@@ -21,7 +21,7 @@ public class InMemoryUserDetailsServiceConfig {
         manager.createUser(
                 User.withUsername("whyn")
                         .password(this.passwordEncoder.encode("123456"))
-                        .roles("admin")
+                        .roles("ADMIN")
                         .authorities("create", "read", "update", "delete")
                         .build()
         );

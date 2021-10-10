@@ -1,22 +1,21 @@
 package com.yn.springsecuritydemo.config;
 
-import com.yn.springsecuritydemo.config.jump.AuthenticationFailureHandlerImpl;
-import com.yn.springsecuritydemo.config.jump.AuthenticationSuccessHandlerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.stereotype.Component;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 // Spring Security 自定义配置类
-@Component
+@Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -29,26 +28,34 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    @Bean
+    protected UserDetailsService userDetailsService() {
+        // 管理员
+        UserDetails adminUser = User.withUsername("admin")
+                .password(this.passwordEncoder.encode("admin_password"))
+                .roles("ADMIN") // ROLE_ADMIN
+//                .authorities("ROLE_ADMIN","create", "read", "update", "delete")
+                .build();
+
+        // 普通用户
+        UserDetails normalUser = User.builder()
+                .username("user")
+                .password(this.passwordEncoder.encode("user_password"))
+                .roles("USER") // ROLE_USER
+//                .authorities("read")
+                .build();
+
+        return new InMemoryUserDetailsManager(adminUser, normalUser);
+    }
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/user/**").hasAnyRole("ADMIN", "USER")
                 .anyRequest().authenticated()
                 .and()
-                .csrf().disable()
-                .formLogin()
-                .and()
-                .logout(logout -> {
-                    // doLogout 无需自己定义，可直接访问退出
-                    logout.logoutUrl("/doLogout")
-//                            logout.logoutRequestMatcher(new AntPathRequestMatcher("/doLogout","POST"));
-                            // 退出成功后跳转页面
-                            .logoutSuccessUrl("/test/index").permitAll()
-                            // 清除 cookie
-                            .deleteCookies()
-                            // 清除认证消息 (默认使能）
-                            .clearAuthentication(true)
-                            // 清除 Session（默认使能）
-                            .invalidateHttpSession(true);
-                });
+                .httpBasic();
     }
 
 
