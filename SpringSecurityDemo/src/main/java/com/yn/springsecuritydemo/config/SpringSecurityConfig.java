@@ -16,6 +16,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+import java.util.concurrent.TimeUnit;
+
 // Spring Security 自定义配置类
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -48,6 +50,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         return new InMemoryUserDetailsManager(adminUser, normalUser);
     }
+
     @Bean
     RoleHierarchy roleHierarchy() {
         RoleHierarchyImpl hierarchy = new RoleHierarchyImpl();
@@ -57,22 +60,18 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // 关闭 CSRF
-        http.csrf().disable()
-                .authorizeRequests()
-                // 拥有 create，或者 update，或者 delete 权限就可以访问 /admin/**
-                .antMatchers("/admin/**").hasAnyAuthority("create", "update", "delete")
-                // 只有拥有 read 权限才能访问：GET /user/**
-                .antMatchers(HttpMethod.GET, "/user/**").hasAuthority("read")
-                // 只有拥有 create 权限才能上传用户： POST /user/**
-                .antMatchers(HttpMethod.POST,"/user/**").hasAuthority("create")
-                // 只有拥有 update 权限才能更新用户： PUT /user/**
-                .antMatchers(HttpMethod.PUT,"/user/**").hasAuthority("update")
-                // 只有拥有 delete 权限才能删除用户： DELETE /user/**
-                .antMatchers(HttpMethod.DELETE,"/user/**").hasAuthority("delete")
+        http.authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
-                .httpBasic();
+                .formLogin()
+                .and()
+                .rememberMe(rememberMe -> {
+                    // 用于生成 token 的密钥
+                    rememberMe.key("uniqueAndSecure")
+                            // Cookie 名称
+                            .rememberMeCookieName("remember")
+                            .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(2));
+                });
     }
 
 
