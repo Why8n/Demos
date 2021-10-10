@@ -21,5 +21,12 @@ public class LoginApi {
     public String hahawaPage() {
         return "failure";
     }
+
+    @RequestMapping("/doLogout")
+    public String doLogout() {
+        System.out.println("doLogout.....");
+        return "failure";
+    }
+
 }
 

@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 
 // Spring Security 自定义配置类
@@ -29,26 +30,25 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//                .antMatchers("/login.html").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .csrf().disable()
-//                .formLogin()
-//                .loginPage("/login.html")
-//                .usernameParameter("name")
-//                .passwordParameter("pwd");
-
-        http.authorizeRequests(request ->
-                request.antMatchers("/login.html").permitAll()
-                        .anyRequest().authenticated())
-                .formLogin((form) -> {
-                    form.loginPage("/login.html")
-                            // 配置用户名键值
-                            .usernameParameter("name")
-                            // 配置密码键值
-                            .passwordParameter("pwd");
-                }).csrf().disable();
+        http.authorizeRequests()
+                .anyRequest().authenticated()
+                .and()
+                .csrf().disable()
+                .formLogin()
+                .and()
+                .logout(logout -> {
+                    // doLogout 无需自己定义，可直接访问退出
+                    logout.logoutUrl("/doLogout")
+//                            logout.logoutRequestMatcher(new AntPathRequestMatcher("/doLogout","POST"));
+                            // 退出成功后跳转页面
+                            .logoutSuccessUrl("/test/index").permitAll()
+                            // 清除 cookie
+                            .deleteCookies()
+                            // 清除认证消息 (默认使能）
+                            .clearAuthentication(true)
+                            // 清除 Session（默认使能）
+                            .invalidateHttpSession(true);
+                });
     }
 
 
