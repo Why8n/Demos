@@ -29,17 +29,26 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/failure.html").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .csrf().disable()
-                .formLogin()
-//                .failureHandler(new AuthenticationFailureHandlerImpl("/failure.html"));
-                .failureForwardUrl("/failure.html");
-//                .failureUrl("/failure.html");
+//        http.authorizeRequests()
+//                .antMatchers("/login.html").permitAll()
+//                .anyRequest().authenticated()
+//                .and()
+//                .csrf().disable()
+//                .formLogin()
+//                .loginPage("/login.html")
+//                .usernameParameter("name")
+//                .passwordParameter("pwd");
 
-
+        http.authorizeRequests(request ->
+                request.antMatchers("/login.html").permitAll()
+                        .anyRequest().authenticated())
+                .formLogin((form) -> {
+                    form.loginPage("/login.html")
+                            // 配置用户名键值
+                            .usernameParameter("name")
+                            // 配置密码键值
+                            .passwordParameter("pwd");
+                }).csrf().disable();
     }
 
 
