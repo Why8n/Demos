@@ -1,22 +1,24 @@
 package com.yn.springsecuritydemo.config;
 
+import com.yn.springsecuritydemo.config.token.JwtTokenUsernamePasswordAuthenticationFilter;
+import com.yn.springsecuritydemo.config.token.JwtTokenUtils;
+import com.yn.springsecuritydemo.config.token.JwtTokenVerifyFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-
-import java.util.concurrent.TimeUnit;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 // Spring Security 自定义配置类
 @Configuration
@@ -60,18 +62,18 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .and()
-                .rememberMe(rememberMe -> {
-                    // 用于生成 token 的密钥
-                    rememberMe.key("uniqueAndSecure")
-                            // Cookie 名称
-                            .rememberMeCookieName("remember")
-                            .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(2));
-                });
+        http.authorizeRequests(request -> request.anyRequest().authenticated())
+                // 关闭 CSRF 预防
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(sessionManager ->
+                        // 无需创建 Session
+                        sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                // 添加自定义 token 认证过滤器（下发 token）
+                .addFilter(new JwtTokenUsernamePasswordAuthenticationFilter(
+                        this.authenticationManager()))
+                // 添加自定义 token 提取过滤器（提取并认证）
+                .addFilterAfter(new JwtTokenVerifyFilter(),
+                        JwtTokenUsernamePasswordAuthenticationFilter.class);
     }
 
 
