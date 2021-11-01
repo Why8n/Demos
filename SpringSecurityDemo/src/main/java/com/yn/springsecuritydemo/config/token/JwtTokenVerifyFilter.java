@@ -21,9 +21,7 @@ public class JwtTokenVerifyFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader("Authorization");
-        if (null != token
-                && !"".equals(token)
-                && token.startsWith(JwtTokenUtils.TOKEN_PREFIX)) {
+        if (null != token && token.startsWith(JwtTokenUtils.TOKEN_PREFIX)) {
             Map<String, Object> userDetails = JwtTokenUtils.parseToken(token);
             String username = (String) userDetails.get(JwtTokenUtils.KEY_USER_NAME);
             Collection<? extends GrantedAuthority> authorities =

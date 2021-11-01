@@ -43,7 +43,7 @@ public class JwtTokenUtils {
             userDetails.put(KEY_USER_AUTHORITIES, userAuthorities);
             return userDetails;
         } catch (JwtException e) {
-            throw new IllegalStateException(String.format("token %s can not be trusted!", token));
+            throw new IllegalStateException(String.format("invalid token: %s", token));
         }
     }
 
