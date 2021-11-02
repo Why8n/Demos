@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://www.mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!-- 字段属性名下划线自动转驼峰 -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+    <typeAliases>
+        <!-- type指定类全限定名，alias指定别名，且别名不区分大小写-->
+        <typeAlias type="com.yn.mybatisintegrationdemo.entity.User" alias="user" />
+        <!-- 类名即为别名，且不区分大小写-->
+        <package name="com.yn.mybatisintegrationdemo.entity"/>
+    </typeAliases>
+</configuration>
+

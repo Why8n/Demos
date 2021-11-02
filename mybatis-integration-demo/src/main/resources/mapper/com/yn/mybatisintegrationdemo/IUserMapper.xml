@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namesapce：指定对应表操作接口-->
+<mapper namespace="com.yn.mybatisintegrationdemo.dao.IUserMapper">
+    <!-- 为 POJO 类指定与表字段的映射关系 -->
+    <resultMap id="userMap" type="com.yn.mybatisintegrationdemo.entity.User">
+        <id property="id" column="id"/>
+        <!-- POJO 属性与表字段名称相同可省略配置 -->
+        <result property="name" column="name"/>
+        <result property="gender" column="gender"/>
+    </resultMap>
+
+    <!-- 增 -->
+    <insert id="addUser" parameterType="com.yn.mybatisintegrationdemo.entity.User">
+        insert into `tb_user`(`name`,`gender`) values(#{name},#{gender})
+    </insert>
+
+    <!-- 删 -->
+    <delete id="deleteuserById" parameterType="_long">
+        delete from `tb_user` where `id` = #{id}
+    </delete>
+
+    <!-- 改 -->
+    <!-- User 此处使用的是简写，因为在全局配置文件配置了简写 -->
+    <update id="updateUserByName" parameterType="User">
+        update `tb_user` set `gender`=#{gender}
+        <if test="id != null">
+            ,`id` = #{id}
+        </if>
+        where `name` = #{name}
+    </update>
+
+    <!-- 查 -->
+    <select id="selectAll" resultMap="userMap">
+        select * from `tb_user`
+    </select>
+</mapper>
