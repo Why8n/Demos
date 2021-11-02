@@ -1,21 +1,14 @@
 package com.yn.mybatisintegrationdemo.entity;
 
+import com.yn.mybatisintegrationdemo.enums.Gender;
+
 import java.io.Serializable;
 
 public class User implements Serializable {
 
     private Long id;
     private String name;
-    private String gender;
-
-    public User() {
-    }
-
-    public User(Long id, String name, String gender) {
-        this.id = id;
-        this.name = name;
-        this.gender = gender;
-    }
+    private Gender gender;
 
     @Override
     public String toString() {
@@ -25,24 +18,6 @@ public class User implements Serializable {
                 ", gender=" + gender +
                 '}';
     }
-
-//    private static enum Gender {
-//        MALE("male"),
-//        FEMALE("female");
-//
-//        private String gender;
-//        Gender(String gender) {
-//            this.gender = gender;
-//        }
-//
-//        @Override
-//        public String toString() {
-//            return "Gender{" +
-//                    "gender='" + gender + '\'' +
-//                    '}';
-//        }
-//    }
-
 
     public Long getId() {
         return id;
@@ -60,11 +35,13 @@ public class User implements Serializable {
         this.name = name;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
+
+
 }

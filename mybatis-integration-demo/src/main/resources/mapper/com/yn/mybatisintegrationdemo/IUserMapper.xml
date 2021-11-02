@@ -9,7 +9,7 @@
         <id property="id" column="id"/>
         <!-- POJO 属性与表字段名称相同可省略配置 -->
         <result property="name" column="name"/>
-        <result property="gender" column="gender"/>
+        <result property="gender" column="gender" javaType="com.yn.mybatisintegrationdemo.enums.Gender"/>
     </resultMap>
 
     <!-- 增 -->
@@ -18,7 +18,7 @@
     </insert>
 
     <!-- 删 -->
-    <delete id="deleteuserById" parameterType="_long">
+    <delete id="deleteUserById" parameterType="_long">
         delete from `tb_user` where `id` = #{id}
     </delete>
 

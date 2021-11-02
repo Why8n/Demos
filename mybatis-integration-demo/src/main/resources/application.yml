@@ -9,8 +9,10 @@ mybatis:
   config-location: classpath:MyBatisConfig.xml
   mapper-locations: classpath:mapper/**/*.xml
 
+# 开启 MyBatis 日志
 logging:
   level:
+    # 捕获指定包日志
     com:
       yn:
         mybatisintegrationdemo:

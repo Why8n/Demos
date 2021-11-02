@@ -14,5 +14,11 @@
         <!-- 类名即为别名，且不区分大小写-->
         <package name="com.yn.mybatisintegrationdemo.entity"/>
     </typeAliases>
+
+    <typeHandlers>
+        <!-- 配置类型转换器 -->
+        <typeHandler handler="com.yn.mybatisintegrationdemo.handler.GenderTypeHandler"
+                     javaType="com.yn.mybatisintegrationdemo.enums.Gender"/>
+    </typeHandlers>
 </configuration>
 

@@ -9,16 +9,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class UserApi {
 
     @Autowired
     private IUserService userService;
-
-    @GetMapping("/home")
-    public String index() {
-        return "user home page";
-    }
-
 
     @PostMapping
     public String addUser(@RequestBody User user) {

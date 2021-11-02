@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Mapper
+//@Mapper
 @Repository
 public interface IUserMapper {
     // 增：添加用户
