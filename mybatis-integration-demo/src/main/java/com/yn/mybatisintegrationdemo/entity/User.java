@@ -1,6 +1,7 @@
 package com.yn.mybatisintegrationdemo.entity;
 
 import com.yn.mybatisintegrationdemo.enums.Gender;
+import com.yn.mybatisintegrationdemo.enums.Role;
 
 import java.io.Serializable;
 
@@ -9,6 +10,7 @@ public class User implements Serializable {
     private Long id;
     private String name;
     private Gender gender;
+    private Role role;
 
     @Override
     public String toString() {
@@ -16,6 +18,7 @@ public class User implements Serializable {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", gender=" + gender +
+                ", role=" + role +
                 '}';
     }
 
@@ -43,5 +46,11 @@ public class User implements Serializable {
         this.gender = gender;
     }
 
+    public Role getRole() {
+        return role;
+    }
 
+    public void setRole(Role role) {
+        this.role = role;
+    }
 }

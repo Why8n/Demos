@@ -10,11 +10,12 @@
         <!-- POJO 属性与表字段名称相同可省略配置 -->
         <result property="name" column="name"/>
         <result property="gender" column="gender" javaType="com.yn.mybatisintegrationdemo.enums.Gender"/>
+        <result property="role" column="role" javaType="com.yn.mybatisintegrationdemo.enums.Role"/>
     </resultMap>
 
     <!-- 增 -->
     <insert id="addUser" parameterType="com.yn.mybatisintegrationdemo.entity.User">
-        insert into `tb_user`(`name`,`gender`) values(#{name},#{gender})
+        insert into `tb_user`(`name`,`gender`,`role`) values(#{name},#{gender},#{role})
     </insert>
 
     <!-- 删 -->
@@ -28,6 +29,9 @@
         update `tb_user` set `gender`=#{gender}
         <if test="id != null">
             ,`id` = #{id}
+        </if>
+        <if test="role != null">
+            ,`role` = #{role}
         </if>
         where `name` = #{name}
     </update>

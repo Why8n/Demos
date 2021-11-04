@@ -5,9 +5,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yn.mybatisintegrationdemo.entity.User;
 
-import java.util.Arrays;
 
-public enum Gender {
+public enum Gender implements IEnum2StringConverter {
     @JsonProperty("male")
     MALE("male"),
     @JsonProperty("female")
@@ -32,5 +31,10 @@ public enum Gender {
         user.setGender(Gender.MALE);
         String str = new ObjectMapper().writeValueAsString(user);
         System.out.println(str);
+    }
+
+    @Override
+    public String stringify() {
+        return this.gender;
     }
 }
