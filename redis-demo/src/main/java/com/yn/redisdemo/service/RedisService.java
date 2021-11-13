@@ -238,6 +238,18 @@ public class RedisService {
         }
 
         /**
+         * 设置键值，附带过期时间
+         *
+         * @param key
+         * @param value
+         * @param timeout
+         * @param unit
+         */
+        public void set(K key, V value, long timeout, TimeUnit unit) {
+            this.valueOps.set(key, value, timeout, unit);
+        }
+
+        /**
          * 只有当 key 不存在时，才进行设置
          *
          * @param key
@@ -246,6 +258,18 @@ public class RedisService {
          */
         public Boolean setIfAbsent(K key, V value) {
             return this.valueOps.setIfAbsent(key, value);
+        }
+
+        /**
+         * 当 key 不存在时，进行设置，同时指定其过期时间
+         * @param key
+         * @param value
+         * @param timeout
+         * @param unit
+         * @return
+         */
+        public Boolean setIfAbsent(K key, V value, long timeout, TimeUnit unit) {
+            return this.valueOps.setIfAbsent(key, value, timeout, unit);
         }
 
         /**

@@ -2,15 +2,17 @@ package com.yn.redisdemo;
 
 import com.yn.redisdemo.service.RedisService;
 import org.hamcrest.core.Is;
+import org.hamcrest.core.IsNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -19,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 @SpringBootTest
 class RedisDemoApplicationTests {
 
-    // 注入 RedisTemplate
     @Autowired
     private RedisService redisService;
 
@@ -79,6 +80,21 @@ class RedisDemoApplicationTests {
 
         this.redisTemplate.opsForList().range(key, 0, -1)
                 .forEach(System.out::println);
+    }
+
+    @Test
+    public void testStringSetTimeout() throws InterruptedException {
+        String key = "key_string_timeout";
+        this.redisService.string().set(key, "20seconds", 20, TimeUnit.SECONDS);
+        Object actual = this.redisService.string().get(key);
+        System.out.println(actual);
+        assertThat(actual, equalTo("20seconds"));
+
+        new CountDownLatch(1).await(21, TimeUnit.SECONDS);
+
+        actual = this.redisService.string().get(key);
+        System.out.println(actual);
+        assertThat(actual, Is.is(IsNull.nullValue()));
     }
 
 
