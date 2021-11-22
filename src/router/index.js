@@ -18,6 +18,12 @@ const routes = [
     path: '/me',
     component: Me,
   },
+
+  {
+    name: 'route_user',
+    path: '/user/:id*',
+    component: () => import('@/components/User.vue'),
+  },
 ];
 
 // 导入相关函数
