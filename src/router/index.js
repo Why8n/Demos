@@ -24,6 +24,24 @@ const routes = [
     path: '/user/:id*',
     component: () => import('@/components/User.vue'),
   },
+
+  {
+    path: '/news',
+    component: () => import('@/components/nested_router/News.vue'),
+    // 配置嵌套路由
+    children: [
+      {
+        // /news/finace
+        path: 'finance',
+        component: () => import('@/components/nested_router/Finance.vue'),
+      },
+      {
+        // /news/sports
+        path: 'sports',
+        component: () => import('@/components/nested_router/Sports.vue'),
+      },
+    ],
+  },
 ];
 
 // 导入相关函数
