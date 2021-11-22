@@ -1,6 +1,5 @@
-// 导入相关路由组件对象
-import Home from '@/components/Home.vue';
-import Me from '@/components/Me.vue';
+// 懒加载
+const Me = () => import('@/components/Me.vue');
 
 // 定义路由映射：路由映射到具体组件
 const routes = [
@@ -12,7 +11,7 @@ const routes = [
   // 前端路由 /home 对应组件 Home
   {
     path: '/home',
-    component: Home,
+    component: () => import('@/components/Home.vue'),
   },
   // 前端路由 /me 对应组件 Me
   {
