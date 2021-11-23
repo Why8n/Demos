@@ -1,58 +1,18 @@
-// 懒加载
-const Me = () => import('@/components/Me.vue');
+// file: router/index.js
+import { createRouter, createWebHistory } from 'vue-router';
 
-// 定义路由映射：路由映射到具体组件
-const routes = [
-  // 根路径 / 重定向到 /home
-  {
-    path: '/',
-    redirect: '/home',
-  },
-  // 前端路由 /home 对应组件 Home
-  {
-    path: '/home',
-    component: () => import('@/components/Home.vue'),
-  },
-  // 前端路由 /me 对应组件 Me
-  {
-    path: '/me',
-    component: Me,
-  },
-
-  {
-    name: 'route_user',
-    path: '/user/:id*',
-    component: () => import('@/components/User.vue'),
-  },
-
-  {
-    path: '/news',
-    component: () => import('@/components/nested_router/News.vue'),
-    // 配置嵌套路由
-    children: [
-      {
-        // /news/finace
-        path: 'finance',
-        component: () => import('@/components/nested_router/Finance.vue'),
-      },
-      {
-        // /news/sports
-        path: 'sports',
-        component: () => import('@/components/nested_router/Sports.vue'),
-      },
-    ],
-  },
-];
-
-// 导入相关函数
-import { createRouter, createWebHashHistory } from 'vue-router';
-
-// 创建路由实例（`router`）并传递路由映射配置（`route`）
-const router = createRouter({
-  // 配置导航模式，此处采用 hash 模式
-  history: createWebHashHistory(),
-  routes,
+export default createRouter({
+  history: createWebHistory(),
+  routes: [
+    {
+      name: 'Home',
+      path: '/home',
+      component: () => import('@/components/Home.vue'),
+    },
+    {
+      name: 'Me',
+      path: '/me',
+      component: () => import('@/components/Me.vue'),
+    },
+  ],
 });
-
-// 导出 router 实例
-export default router;
