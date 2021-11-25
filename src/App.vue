@@ -3,8 +3,8 @@
   <h1>Main Page</h1>
   
   <!-- 点击跳转到根路由 -->
-  <router-link to="/user_one">One</router-link>
-  <router-link to="/user_1">111</router-link>
+  <router-link to="/user/whyn">Whyn</router-link>
+  <router-link to="/user/Why8n">Why8n</router-link>
   
   <router-view />
   
