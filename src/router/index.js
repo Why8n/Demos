@@ -2,6 +2,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
+  linkActiveClass: 'activeLink',
   history: createWebHistory(),
   routes: [
     {
@@ -9,18 +10,18 @@ const router = createRouter({
       component: () => import('@/components/Home.vue'),
       // 支持传递多个钩子函数
       // beforeEnter: [(..)=>{..}, (..)=>{..}],
-    //   beforeEnter: (to, from, next) => {
-    //     console.log('Home: Route beforeEnter');
-    //     next();
-    //   },
+      //   beforeEnter: (to, from, next) => {
+      //     console.log('Home: Route beforeEnter');
+      //     next();
+      //   },
     },
     {
       path: '/me',
       component: () => import('@/components/Me.vue'),
-    //   beforeEnter: (to, from) => {
-    //     console.log('Me: Route beforeEnter');
-    //     return true;
-    //   },
+      //   beforeEnter: (to, from) => {
+      //     console.log('Me: Route beforeEnter');
+      //     return true;
+      //   },
     },
     { path: '/user', component: () => import('@/components/User.vue') },
   ],

@@ -11,6 +11,10 @@
 </template>
 <style scoped>
 a {
-  margin-left: 10px;
+   margin-left: 10px;
+}
+
+.activeLink {
+  background-color: red;
 }
 </style>
