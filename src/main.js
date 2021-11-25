@@ -1,3 +1,4 @@
+// file: main.js
 import { createApp } from 'vue';
 import App from './App.vue';
 

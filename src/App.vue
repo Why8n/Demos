@@ -1,18 +1,20 @@
+<!-- file: App.vue -->
 <template>
   <h1>Main Page</h1>
-  <div class="nav">
-    <!-- router-link 最终会被渲染为一个 a 标签 -->
-    <router-link to="/home">Home</router-link>
-    <router-link to="/me">Me</router-link>
-  </div>
-  <!-- 路由出口：匹配组件最终被渲染位置 -->
+
+  <!-- 点击跳转到根路由 -->
+  <router-link to="/home/1">Home 1</router-link>
+  <router-link to="/home/2">Home </router-link>
+  <router-link to="/me">Me</router-link>
+
   <router-view />
 </template>
-
 <style scoped>
-.nav {
-  width: 100px;
-  display: flex;
-  justify-content: space-around;
+a {
+   margin-left: 10px;
+}
+
+.activeLink {
+  background-color: red;
 }
 </style>
