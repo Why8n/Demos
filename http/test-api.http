@@ -1,0 +1,79 @@
+### /test
+GET http://localhost:8080/test
+
+### signUp(UserOne)
+POST http://localhost:8080/auth/signup
+Content-Type: application/json
+
+{
+  "name": "user_one",
+  "password": "one_password",
+  "role": "normal",
+  "authority": "read"
+}
+
+### singUp(User2)
+POST http://localhost:8080/auth/signup
+Content-Type: application/json
+
+{
+  "name": "user_2",
+  "password": "two_password",
+  "role": "normal",
+  "authority": ""
+}
+
+### signUp(Admin)
+POST http://localhost:8080/auth/signup
+Content-Type: application/json
+
+{
+  "name": "admin",
+  "password": "admin_password",
+  "role": "admin",
+  "authority": "create,read,update,delete"
+}
+
+### signIn(Admin)
+POST http://localhost:8080/auth/signin
+Content-Type: application/json
+
+{
+  "name": "admin",
+  "password": "admin_password"
+}
+
+### signIn(userOne)
+POST http://localhost:8080/auth/signin
+Content-Type: application/json
+
+{
+  "name": "user_one",
+  "password": "one_password"
+}
+
+### signIn(userTwo)
+POST http://localhost:8080/auth/signin
+Content-Type: application/json
+
+{
+  "name": "user_2",
+  "password": "two_password"
+}
+
+### whoami --> admin
+GET http://localhost:8080/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJjcmVhdGUifSx7ImF1dGhvcml0eSI6InJlYWQifSx7ImF1dGhvcml0eSI6InVwZGF0ZSJ9LHsiYXV0aG9yaXR5IjoiZGVsZXRlIn0seyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn1dLCJpYXQiOjE3MDI2Mjc0NTAsImV4cCI6MTcwMzIzMjI1MH0.KtFXx5mDUhtud1YidIy_QGmDdhCplh2a_7z8czxrcws
+
+### whoami --> userOne
+GET http://localhost:8080/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyX29uZSIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJyZWFkIn0seyJhdXRob3JpdHkiOiJST0xFX05PUk1BTCJ9XSwiaWF0IjoxNzAyNjI3NjI3LCJleHAiOjE3MDMyMzI0Mjd9.140TQ0_e535xjDQy9M_wdgDaeZ-daWcZcGR1lieVosY
+
+### whoami --> userTwo
+GET http://localhost:8080/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyXzIiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9OT1JNQUwifV0sImlhdCI6MTcwMjYyOTEzNiwiZXhwIjoxNzAzMjMzOTM2fQ.uE0MqVumsARVeJvVMdNMjeuIYOfzt7yO2PuUze0uCDs
+
+
+### whoami --> none
+GET http://localhost:8080/user
+

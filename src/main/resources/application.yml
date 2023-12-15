@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/whyn
+    username: yn
+    password: yn_password
+
+mybatis:
+  #  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:mapper/**/*.xml
+
+jwt:
+  token:
+    # 密钥
+    secret-key: "this_is_private_secret_key"
+    # 过期时间 7 天
+    # jshell> TimeUnit.DAYS.toMillis(7);
+    # $1 ==> 604800000
+    expiration: 604800000
+    # token 前缀
+    token-prefix: Bearer
+logging:
+  level:
+    com:
+      whyn:
+        springsecuritydemo:
+          mapper: debug
