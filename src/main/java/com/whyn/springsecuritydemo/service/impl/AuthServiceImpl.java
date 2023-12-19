@@ -10,9 +10,12 @@ import org.springframework.security.authentication.AuthenticationServiceExceptio
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import java.util.Collection;
 
 @Service
 @AllArgsConstructor
@@ -45,13 +48,17 @@ public class AuthServiceImpl implements IAuthService {
             // 都要设置为对同一字段进行操作
             // credentials 就是指代密码
             Authentication authentication = new UsernamePasswordAuthenticationToken(username, password);
+            // 可自定义填充其余信息，方便后续获取用户时，能获取这些自定义信息
+            // ((UsernamePasswordAuthenticationToken)authentication).setDetails(null);
+
             // AuthenticationManager 进行认证，认证失败抛异常
-            this.authManager.authenticate(authentication);
+            // 认证通过，成功返回一个新的 Authentication 对象，其内包含有用户所有信息(包含上面自定义信息 setDetails），只是将密码去除
+            Authentication successDetailedAuth = this.authManager.authenticate(authentication);
             // 认证通过
             // 获取用户详细信息
-            User userDetails = this.userDao.selectOneByName(username);
+            Collection<? extends GrantedAuthority> authorities = successDetailedAuth.getAuthorities();
             // 下发 jwt token
-            jwtToken = this.jwtTokenService.generateToken(userDetails.getUsername(), userDetails.getAuthorities());
+            jwtToken = this.jwtTokenService.generateToken(username, authorities);
 
         } catch (AuthenticationException e) {
             e.printStackTrace();
